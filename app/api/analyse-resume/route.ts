@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from "next/server";
 import { parseResume } from "@/lib/parse";
 import { buildResumePrompt,buildResumeWithJDPrompt } from "@/lib/promptBuilder";
 import  { callGemini } from "@/lib/llm"
-import { ResumeValidator, ResponseValidator } from "@/utils/resumeValidator";
 
 export const runtime = "nodejs";
 
@@ -11,7 +10,8 @@ export async function POST(request: NextRequest){
     try{
         const formData = await request.formData();
         const file = formData.get('file') as File;
-        const jd = formData.get('jd') as string | null; //optional 
+        const jdEntry = formData.get("jd");
+        const jd = typeof jdEntry === "string" ? jdEntry : null;
 
         // ResumeValidator.validateFile(file);
 

@@ -1,5 +1,5 @@
 import { getDateContext } from "@/utils/dateContext";
-export function buildResumePrompt(resumeText: string) {
+export function buildResumePrompt(resumeText: string[]) {
   return `
     ${getDateContext()}
 
@@ -119,7 +119,7 @@ export function buildResumePrompt(resumeText: string) {
 // promptBuilder.js
 
 export const buildResumeWithJDPrompt = (
-  resumeText: string,
+  resumeText: string[],
   jobDescription: string,
 ) => {
   return `

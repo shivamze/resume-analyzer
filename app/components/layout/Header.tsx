@@ -15,18 +15,6 @@ export function Header(){
                   ResumeAI
                 </span>
               </div>
-
-              {/* Nav Actions */}
-              <div className="flex items-center gap-3">
-                <button
-                  variant="outline"
-                  onClick={() => setShowAbout(!showAbout)}
-                >
-                  <Info className="w-4 h-4 sm:mr-2" />
-                  <span className="hidden sm:inline">About</span>
-                </button>
-                <button onClick={() => setActiveTab("resume")}>Analyze</button>
-              </div>
             </div>
           </div>
         </nav>

@@ -6,7 +6,10 @@ interface TextareaProps {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   rows?: number;
   className?: string;
+  disabled?: boolean;
 }
+
+
 
 export function Textarea({
   placeholder,
@@ -14,6 +17,7 @@ export function Textarea({
   onChange,
   rows = 4,
   className = "",
+  disabled,
 }: TextareaProps) {
   return (
     <textarea
@@ -22,6 +26,7 @@ export function Textarea({
       onChange={onChange}
       rows={rows}
       className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none ${className}`}
+      disabled={disabled}
     />
   );
 }

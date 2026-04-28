@@ -8,7 +8,6 @@ import { ScoreBar } from "./ProgressBar";
 import { LoadingSpinner } from "./LoadingSpiner";
 import { CheckCircle, AlertCircle, Lightbulb, Sparkles } from "lucide-react";
 import axios from "axios";
-import SkillGapRoadmap from "./SkillGapRoadmap";
 // import { SkillGapRoadmapData } from "./SkillGapRoadmap";
 
 interface Resource {
@@ -33,7 +32,7 @@ export interface SkillGapRoadmapData {
   phases: Phase[];
 }
 
-interface SectionScores {
+interface SectionScore {
   key: string;
   title: string;
   score: number;
@@ -48,7 +47,7 @@ interface AnalysisResult {
     experience_level: string;
     total_experience_years: number;
   };
-  section_scores: SectionScores[];
+  section_scores: Record<string, RawSectionScore>;
   overall_score: {
     total: number;
     grade: string;
@@ -98,13 +97,25 @@ interface AnalysisResult {
   final_advice: string;
 }
 
-const formatSectionScores = (data: any): SectionScores[] => {
-  return Object.entries(data || {}).map(([key, value]: any) => ({
+interface RawSectionScore {
+  score: number;
+  max: number;
+  remark?: string; // optional kyunki kabhi kabhi nahi hota
+}
+
+// Step 2 — Function properly type karo
+const formatSectionScores = (
+  data: Record<string, RawSectionScore> | undefined | null,
+): SectionScore[] => {
+  if (!data || typeof data !== "object") return []; // ✅ null/undefined safe
+
+  return Object.entries(data).map(([key, value]) => ({
+    // ✅ no any
     key,
     title: key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-    score: value.score,
-    max: value.max,
-    remark: value.remark,
+    score: typeof value?.score === "number" ? value.score : 0, // ✅ safe
+    max: typeof value?.max === "number" ? value.max : 1, // ✅ safe
+    remark: value?.remark ?? "", // ✅ safe
   }));
 };
 
@@ -380,7 +391,7 @@ export function JDMatchAnalysis() {
           <Card>
             <h2 className="font-bold text-gray-500 mb-4 ">SECTION SCORES</h2>
             <div className=" p-1 m-1 grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {formattedResult.section_scores.map((section) => (
+              {formattedResult?.section_scores.map((section) => (
                 <div className="flex-1 w-full font-bold" key={section.key}>
                   <ScoreBar
                     label={section.title}
