@@ -8,6 +8,7 @@ import { ScoreBar } from "./ProgressBar";
 import { LoadingSpinner } from "./LoadingSpiner";
 import { CheckCircle, AlertCircle, Lightbulb, Sparkles } from "lucide-react";
 import axios from "axios";
+import { DEMO_JD_RESULT } from "@/data/mockData";
 // import { SkillGapRoadmapData } from "./SkillGapRoadmap";
 
 interface Resource {
@@ -76,7 +77,12 @@ interface AnalysisResult {
       missing_skills_to_add: string[];
     };
     certifications: {
-      recommended_certifications: string[];
+      recommended_certifications: {
+        topic: string;
+        type: string;
+        platform: string;
+        priority: string;
+      }[];
     };
     work_experience: {
       improved_bullets: {
@@ -185,18 +191,14 @@ export function JDMatchAnalysis() {
     // }, 2000);
   };
 
-  const handleDemoAnalyze = () => {
-    // Create a mock file for demo
-    const mockFile = new File([""], "sample-resume.pdf", {
-      type: "application/pdf",
-    });
-    setFile(mockFile);
+  const handleDemoAnalyze = async () => {
+    setIsAnalyzing(true);
     setResult(null);
 
-    // Auto-trigger analysis
-    setTimeout(() => {
-      handleAnalyze();
-    }, 500);
+    await new Promise((res) => setTimeout(res, 1500)); // simulate API
+
+    setResult(DEMO_JD_RESULT);
+    setIsAnalyzing(false);
   };
 
   const formattedResult = result
@@ -587,7 +589,7 @@ export function JDMatchAnalysis() {
                         className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 border border-blue-200"
                         key={index}
                       >
-                        {keyword}
+                        {keyword.topic}
                       </span>
                     ),
                   )}

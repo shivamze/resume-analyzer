@@ -7,6 +7,7 @@ import { ScoreBar } from "./ProgressBar";
 import { LoadingSpinner } from "./LoadingSpiner";
 import { CheckCircle, AlertCircle, Lightbulb, Sparkles } from "lucide-react";
 import axios from "axios";
+import { DEMO_RESULT } from "@/data/mockData";
 
 interface SectionScore {
   key: string;
@@ -157,19 +158,15 @@ export function ResumeAnalysis() {
     // }, 2000);
   };
 
-  const handleDemoAnalyze = () => {
-    // Create a mock file for demo
-    const mockFile = new File([""], "sample-resume.pdf", {
-      type: "application/pdf",
-    });
-    setFile(mockFile);
-    setResult(null);
-
-    // Auto-trigger analysis
-    setTimeout(() => {
-      handleAnalyze();
-    }, 500);
-  };
+  const handleDemoAnalyze = async () => {
+      setIsAnalyzing(true);
+      setResult(null);
+  
+      await new Promise((res) => setTimeout(res, 1500)); // simulate API
+  
+      setResult(DEMO_RESULT.data);
+      setIsAnalyzing(false);
+    };
 
   const formattedResult = result? {
     ...result,
