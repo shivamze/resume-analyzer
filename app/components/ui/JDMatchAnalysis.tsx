@@ -13,9 +13,9 @@ import { DEMO_JD_RESULT } from "@/data/mockData";
 
 interface Resource {
   topic: string;
-  type: "Course" | "Practice" | "Project" | "Book" | "Documentation";
+  type: string;
   platform: string;
-  priority: "High" | "Medium" | "Low";
+  priority: string;
 }
 
 interface Phase {
