@@ -2,6 +2,8 @@
 
 An intelligent resume analyzer powered by Google Gemini AI.
 
+# Live Link - https://resume-analyzer-m565.vercel.app/
+
 ## Features
 - Resume analysis with ATS scoring
 - Section-wise scoring & feedback  
